@@ -1,0 +1,87 @@
+body {
+    font-family: "Poiret One", sans-serif;
+    background-color: #181A1B; /* Dark background */
+    color: #FFFFFF; /* White text */
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 10px auto;
+    background: #1F2023; /* Slightly lighter dark */
+    padding: 7px 10px;
+    border-radius: 12px;
+}
+
+h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+    color: #FFFFFF; /* Pure white */
+    font-weight: bold;
+    font-style: italic;
+}
+
+.tool-section, .color-section {
+    margin: 20px 0;
+    padding: 5px;
+    background: #25262B; /* Dark grayish */
+    border-radius: 10px;
+    color: #EEEEEE;
+}
+
+label {
+    font-size: 14px;
+    margin-right: 10px;
+    margin-left: 15px;
+    color: #EEEEEE;
+}
+
+button {
+    background: #FFFFFF; /* White */
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #181A1B; /* Dark text */
+}
+
+button:hover {
+    background: #CCCCCC; /* Light gray */
+    transform: scale(1.05);
+}
+
+button:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+input[type="range"] {
+    width: 150px;
+    cursor: pointer;
+    accent-color: #FFFFFF; /* White accent */
+}
+
+input[type="color"] {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 3px none #FFFFFF; /* White border */
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border-radius: 50%;
+    border: none;
+}

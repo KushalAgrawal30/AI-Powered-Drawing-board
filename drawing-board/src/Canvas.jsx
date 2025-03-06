@@ -59,9 +59,9 @@ function Canvas(){
     }
 
     return(
-        <div>
+        <div className="container">
+            <h1>AI Sketch Book</h1>
             <div className="tool-section">
-                <h1>Tools</h1>
                 <button type="button" disabled={!eraseMode} onClick={handlePenClick}>Pen</button>
                 <button type="button" disabled={eraseMode} onClick={handleEraser}>Eraser</button>
                 <label htmlFor="strokeWidth">Stroke Width </label>
@@ -74,7 +74,6 @@ function Canvas(){
                 <button type="button" onClick={handleResetClick}>Reset</button>
             </div>
             <div className="color-section">
-                <h1>Color</h1>
                 <label htmlFor="strokeColor">Stroke Color </label>
                 <input type="color" value={strokeColor} id="strokeColor" onChange={handleStrokeColorChange}/>
                 <label htmlFor="canvasColor">Canvas Color</label>
@@ -84,7 +83,7 @@ function Canvas(){
             <ReactSketchCanvas
                 width="100%"
                 ref={canvasRef} 
-                height="250px"
+                height="500px"
                 canvasColor={canvasColor}
                 strokeWidth={strokeWidth}
                 eraserWidth={eraseWidth}
