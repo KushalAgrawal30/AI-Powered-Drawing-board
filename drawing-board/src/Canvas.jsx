@@ -7,9 +7,9 @@ function Canvas(){
     const [eraseMode, setEraseMode] = useState(false)
     const [strokeWidth, setStrokeWidth] = useState(5)
     const [eraseWidth, setEraseWidth] = useState(5)
+
     const [strokeColor, setStrokeColor] = useState("#000000")
     const [canvasColor, setCanvasColor] = useState("#ffffff")
-
 
 
     const handleEraser = () => {
@@ -38,6 +38,25 @@ function Canvas(){
         setCanvasColor(event.target.value)
     }
 
+    const handleUndoClick = () => {
+        canvasRef.current?.undo()
+    }
+
+    const handleRedoClick = () => {
+        canvasRef.current?.redo()
+    }
+
+    const handleClearClick = () => {
+        canvasRef.current?.clearCanvas()
+    }
+
+    const handleResetClick = () => {
+        canvasRef.current?.resetCanvas()
+        setStrokeColor("#000000")
+        setCanvasColor("#ffffff")
+        setStrokeWidth(5)
+        setEraseWidth(5)
+    }
 
     return(
         <div>
@@ -49,18 +68,19 @@ function Canvas(){
                 <input type="range" disabled={eraseMode} id="strokeWidth" value={strokeWidth} onChange={handleStrokeWidth} min="1" max="20" step="1"/>
                 <label htmlFor="eraseWidth">Eraser Width </label>
                 <input type="range" disabled={!eraseMode} id="eraseWidth" value={eraseWidth} onChange={handleEraserWidth} min="1" max="20" step="1"/>
-                <button type="button">Undo</button>
-                <button type="button">Redo</button>
-                <button type="button">Clear</button>
-                <button type="button">Reset</button>
+                <button type="button" onClick={handleUndoClick}>Undo</button>
+                <button type="button" onClick={handleRedoClick}>Redo</button>
+                <button type="button" onClick={handleClearClick}>Clear</button>
+                <button type="button" onClick={handleResetClick}>Reset</button>
             </div>
             <div className="color-section">
                 <h1>Color</h1>
                 <label htmlFor="strokeColor">Stroke Color </label>
-                <input type="color" id="strokeColor" onChange={handleStrokeColorChange}/>
+                <input type="color" value={strokeColor} id="strokeColor" onChange={handleStrokeColorChange}/>
                 <label htmlFor="canvasColor">Canvas Color</label>
-                <input type="color" id="canvasColor" onChange={handleCanvasColorChange} />
+                <input type="color" value={canvasColor} id="canvasColor" onChange={handleCanvasColorChange} />
             </div>
+
             <ReactSketchCanvas
                 width="100%"
                 ref={canvasRef} 
