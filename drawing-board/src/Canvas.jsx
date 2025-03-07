@@ -58,6 +58,20 @@ function Canvas(){
         setEraseWidth(5)
     }
 
+    const handleSave = async () => {
+        const dataURL = await canvasRef.current?.exportImage('png')
+        if(dataURL){
+            const link = Object.assign(document.createElement('a'), {
+                href: dataURL,
+                style: {display: 'none'},
+                download: 'sketch.png'
+            })
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+        }
+    }
+
     return(
         <div className="container">
             <h1>AI Sketch Book</h1>
@@ -72,6 +86,7 @@ function Canvas(){
                 <button type="button" onClick={handleRedoClick}>Redo</button>
                 <button type="button" onClick={handleClearClick}>Clear</button>
                 <button type="button" onClick={handleResetClick}>Reset</button>
+                <button type="button" onClick={handleSave}>Save</button>
             </div>
             <div className="color-section">
                 <label htmlFor="strokeColor">Stroke Color </label>
