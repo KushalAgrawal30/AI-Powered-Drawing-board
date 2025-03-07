@@ -1,5 +1,4 @@
 import {ReactSketchCanvas} from "react-sketch-canvas";
-
 import {ChangeEvent, useRef, useState} from "react"
 
 function Canvas(){
@@ -11,6 +10,7 @@ function Canvas(){
     const [strokeColor, setStrokeColor] = useState("#000000")
     const [canvasColor, setCanvasColor] = useState("#1F2023")
 
+    const [aiResponse, setAIResponse] = useState("")
 
     const handleEraser = () => {
         setEraseMode(true)
@@ -72,6 +72,52 @@ function Canvas(){
         }
     }
 
+    const analyzeImage = async () => {
+        setAIResponse("")
+        const dataURL = await canvasRef.current?.exportImage('png')
+        if(dataURL){
+            const blob = await fetch(dataURL).then(res => res.blob())
+
+            const reader = new FileReader()
+            reader.readAsDataURL(blob)
+            reader.onloadend = async () => {
+                const base64img = reader.result.split(',')[1]
+
+                const prompt = "Analyze the given sketch and describe what it represents. If there is any mathematical equation, identify and solve it in a clear step-by-step explanation using simple language. Do not use any special characters, formatting symbols, or markdown. Write the response in complete sentences as a normal paragraph. If the sketch contains a question, answer it clearly. If the sketch is abstract or artistic, describe its meaning in simple terms.";
+
+                const requestbody = {
+                    contents: [
+                        {role: 'user', parts:[{text:prompt}]},
+                        {role: 'user', parts:[{inline_data: {mime_type: 'image/png', data:base64img}}]}
+                    ]
+                };
+
+                const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent"
+                const API_KEY = "AIzaSyDTi4VQZWKLcyEZkWYy-VshArDVEoYO8As"
+
+                try {
+                    const response = await fetch(`${GEMINI_API_URL}?key=${API_KEY}`, {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(requestbody)
+                    })
+
+                    const result = await response.json()
+                    const ai_response = result.candidates?.[0]?.content?.parts?.[0]?.text
+                    console.log("Gemini rsponse", ai_response)
+                    setAIResponse(ai_response)
+
+                    
+                }catch(error){
+                    console.error("Error processing image:", error);
+                    alert("Failed to process image.");
+                }
+            }
+        }
+    } 
+
     return(
         <div className="container">
             <h1>AI Sketch Book</h1>
@@ -104,6 +150,10 @@ function Canvas(){
                 eraserWidth={eraseWidth}
                 strokeColor={strokeColor}
             />
+            <button type="button" onClick={analyzeImage}>Recognize</button>
+            <div className="ai-response">
+                <p>{aiResponse}</p>
+            </div>
         </div>
     )
 }
