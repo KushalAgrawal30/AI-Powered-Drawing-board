@@ -56,6 +56,7 @@ function Canvas(){
         setCanvasColor("#1F2023")
         setStrokeWidth(5)
         setEraseWidth(5)
+        setAIResponse("")
     }
 
     const handleSave = async () => {
@@ -83,7 +84,13 @@ function Canvas(){
             reader.onloadend = async () => {
                 const base64img = reader.result.split(',')[1]
 
-                const prompt = "Analyze the given sketch and describe what it represents. If there is any mathematical equation, identify and solve it in a clear step-by-step explanation using simple language. Do not use any special characters, formatting symbols, or markdown. Write the response in complete sentences as a normal paragraph. If the sketch contains a question, answer it clearly. If the sketch is abstract or artistic, describe its meaning in simple terms.";
+                const prompt = `
+                                Analyze the given sketch and determine.  
+                                    - If it contains an equation, identify and solve it step by step in simple language.
+                                    - If the sketch is a general drawing or handwriting, describe it briefly without mentioning equations.
+                                    - If the sketch is only text without an equation, simply describe what it says without referencing math.
+                                Your response should be clear and in full sentences. Do not use symbols, special characters, or unnecessary formatting.
+                            `;
 
                 const requestbody = {
                     contents: [
@@ -93,7 +100,7 @@ function Canvas(){
                 };
 
                 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent"
-                const API_KEY = "AIzaSyDTi4VQZWKLcyEZkWYy-VshArDVEoYO8As"
+                const API_KEY = import.meta.env.VITE_GEMINI_API_KEY
 
                 try {
                     const response = await fetch(`${GEMINI_API_URL}?key=${API_KEY}`, {
