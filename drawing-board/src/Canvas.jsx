@@ -9,7 +9,7 @@ function Canvas(){
     const [eraseWidth, setEraseWidth] = useState(5)
 
     const [strokeColor, setStrokeColor] = useState("#000000")
-    const [canvasColor, setCanvasColor] = useState("#ffffff")
+    const [canvasColor, setCanvasColor] = useState("#1F2023")
 
 
     const handleEraser = () => {
@@ -53,7 +53,7 @@ function Canvas(){
     const handleResetClick = () => {
         canvasRef.current?.resetCanvas()
         setStrokeColor("#000000")
-        setCanvasColor("#ffffff")
+        setCanvasColor("#1F2023")
         setStrokeWidth(5)
         setEraseWidth(5)
     }
