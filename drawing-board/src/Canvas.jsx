@@ -10,7 +10,7 @@ function Canvas(){
     const [eraseWidth, setEraseWidth] = useState(5)
 
     const [strokeColor, setStrokeColor] = useState("#000000")
-    const [canvasColor, setCanvasColor] = useState("#1F2023")
+    const [canvasColor, setCanvasColor] = useState("#e9eaed")
 
     const [aiResponse, setAIResponse] = useState("")
 
@@ -129,27 +129,32 @@ function Canvas(){
 
     return(
         <div className="container">
-            <h1>AI Sketch Book</h1>
-            <div className="tool-section">
-                <button type="button" disabled={!eraseMode} title="Pen" onClick={handlePenClick}><FontAwesomeIcon icon={faPaintbrush} /></button>
-                <button type="button" disabled={eraseMode} title="Erase" onClick={handleEraser}><FontAwesomeIcon icon={faEraser} /></button>
-                <label htmlFor="strokeWidth">Stroke Width </label>
-                <input type="range" disabled={eraseMode} id="strokeWidth" value={strokeWidth} onChange={handleStrokeWidth} min="1" max="20" step="1"/>
-                <label htmlFor="eraseWidth">Eraser Width </label>
-                <input type="range" disabled={!eraseMode} id="eraseWidth" value={eraseWidth} onChange={handleEraserWidth} min="1" max="20" step="1"/>
-                <button type="button" title="Undo" onClick={handleUndoClick}><FontAwesomeIcon icon={faRotateLeft} /></button>
-                <button type="button" title="Redo" onClick={handleRedoClick}><FontAwesomeIcon icon={faRotateRight} /></button>
-                <button type="button" title="Clear" onClick={handleClearClick}><FontAwesomeIcon icon={faBroom} /></button>
-                <button type="button" title="Reset" onClick={handleResetClick}><FontAwesomeIcon icon={faArrowsRotate} /></button>
-                <button type="button" title="Save" onClick={handleSave}><FontAwesomeIcon icon={faDownload} /></button>
+            <div className="tool-container">
+                <div className="tool-section">
+                    <button type="button" disabled={!eraseMode} title="Pen" onClick={handlePenClick}><FontAwesomeIcon icon={faPaintbrush} /></button>
+                    <button type="button" disabled={eraseMode} title="Erase" onClick={handleEraser}><FontAwesomeIcon icon={faEraser} /></button>
+                    <label htmlFor="strokeWidth">Stroke Width </label>
+                    <input type="range" disabled={eraseMode} id="strokeWidth" value={strokeWidth} onChange={handleStrokeWidth} min="1" max="20" step="1"/>
+                    <label htmlFor="eraseWidth">Eraser Width </label>
+                    <input type="range" disabled={!eraseMode} id="eraseWidth" value={eraseWidth} onChange={handleEraserWidth} min="1" max="20" step="1"/>
+                    <button type="button" title="Undo" onClick={handleUndoClick}><FontAwesomeIcon icon={faRotateLeft} /></button>
+                    <button type="button" title="Redo" onClick={handleRedoClick}><FontAwesomeIcon icon={faRotateRight} /></button>
+                    <button type="button" title="Clear" onClick={handleClearClick}><FontAwesomeIcon icon={faBroom} /></button>
+                    <button type="button" title="Reset" onClick={handleResetClick}><FontAwesomeIcon icon={faArrowsRotate} /></button>
+                    <button type="button" title="Save" onClick={handleSave}><FontAwesomeIcon icon={faDownload} /></button>
+                </div>
+                <div className="color-section">
+                    <label htmlFor="strokeColor">Stroke Color </label>
+                    <input type="color" value={strokeColor} id="strokeColor" onChange={handleStrokeColorChange}/>
+                    <label htmlFor="canvasColor">Canvas Color</label>
+                    <input type="color" value={canvasColor} id="canvasColor" onChange={handleCanvasColorChange} />
+                </div>
             </div>
-            <div className="color-section">
-                <label htmlFor="strokeColor">Stroke Color </label>
-                <input type="color" value={strokeColor} id="strokeColor" onChange={handleStrokeColorChange}/>
-                <label htmlFor="canvasColor">Canvas Color</label>
-                <input type="color" value={canvasColor} id="canvasColor" onChange={handleCanvasColorChange} />
+            <div className="ai-prompt">
+                <textarea placeholder="Describe"></textarea>
+                <button type="button">Generate</button>
+                
             </div>
-
             <ReactSketchCanvas
                 width="100%"
                 ref={canvasRef} 

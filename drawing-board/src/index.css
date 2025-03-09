@@ -3,17 +3,19 @@
 body {
     font-family:"Poppins";
     font-style: normal;
-    background-color: #1F2023; 
-    color: #FFFFFF; 
+    background-color: #e9eaed;
     margin: 0;
     padding: 0;
 }
 
+.tool-container{
+    display: flex;
+    background-color: #FFFFFF;
+    width: 100%;
+}
+
 .container {
-    max-width: 1300px;
-    margin: 10px auto;
-    background: #1F2023; 
-    padding: 7px 10px;
+    background: #e9eaed; 
     border-radius: 12px;
 }
 
@@ -28,21 +30,29 @@ h1 {
 
 .tool-section, .color-section {
     margin: 10px 0;
-    padding: 5px;
-    background: #1F2023; /* Dark grayish */
+    padding: 3px;
     border-radius: 10px;
-    color: #EEEEEE;
+    color: #000000;
+}
+
+.color-section{
+    display: flex;
+}
+
+.color-section label{
+    position: relative;
+    top: 20%;
 }
 
 label {
     font-size: 14px;
-    margin-right: 10px;
-    margin-left: 15px;
-    color: #EEEEEE;
+    margin-right: 5px;
+    margin-left: 5px;
+    color: #000000;
 }
 
 button {
-    background: #FFFFFF; /* White */
+    background: #333333; 
     border: none;
     padding: 10px 15px;
     font-size: 14px;
@@ -51,23 +61,23 @@ button {
     border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
-    color: #181A1B; /* Dark text */
+    color: #FFFFFF; 
 }
 
 button:hover {
-    background: #CCCCCC; /* Light gray */
+    background: #414040; /* Light gray */
     transform: scale(1.05);
 }
 
 button:disabled {
-    background: #555;
+    background: #7b7b7b;
     cursor: not-allowed;
 }
 
 input[type="range"] {
     width: 150px;
     cursor: pointer;
-    accent-color: #FFFFFF; /* White accent */
+    accent-color: #333333; /* White accent */
 }
 
 input[type="color"] {
@@ -87,4 +97,27 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 input[type="color"]::-webkit-color-swatch {
     border-radius: 50%;
     border: 1px solid ;
+}
+
+.ai-prompt {
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: row;
+}
+
+.ai-prompt textarea{
+    background-color: transparent;
+    border: 1px solid #000000;
+    width: 250px;
+    height: 60px;
+    resize: none;
+    border-radius: 10px;
+}
+
+.ai-response{
+    margin: 0 10px;
 }
