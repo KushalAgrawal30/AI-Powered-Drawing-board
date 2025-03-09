@@ -1,6 +1,34 @@
 # AI-Powered-Drawing-board
- 
-A versatile drawing board where users can sketch, customize brushes with different colors and stroke sizes, and add text to their artwork. Include options to clear the canvas, save drawings as images, and share creations easily. The interface should be smooth, intuitive, and fully responsive, ensuring a seamless experience across all devices.
 
-Bonus:
-Integrate an API (e.g., Gemini API) to analyze drawings and identify objects. When users click 'Recognize,' the AI provides real-time feedback (e.g., 'This looks like a cat!') and displays it on the screen. Additionally, allow users to describe what they want to draw, and the AI provides guided suggestions or outlines to assist them.
+A versatile drawing board where users can sketch, customize brushes with different colors and stroke sizes. The interface is smooth, intuitive, and fully responsive, ensuring a seamless experience across all devices.
+
+## Features
+
+- **Sketching & Customization**
+  - Freehand drawing on a responsive canvas
+  - Customizable brushes: change colors, stroke sizes, and eraser width
+
+- **Canvas Controls**
+  - Undo, redo, clear and reset Canvas
+  - Save drawings as images (PNG)
+  - Share your creations easily
+
+- **AI Integration**
+  - **Drawing Recognition:** Click 'Recognize' to analyze your drawing using an API (Gemini API). Get real-time feedback such as "This looks like a cat!"
+  - **Guided Drawing:** Describe what you want to draw and receive concise, step-by-step suggestions to help you create your artwork.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v12 or later)
+- npm or yarn package manager
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/KushalAgrawal30/AI-Powered-Drawing-board.git
+
+2. To enable AI recognition, set your Gemini API Key in an enviroment variable. Create a .env file
+    VITE_GEMINI_API_KEY = API_KEY
