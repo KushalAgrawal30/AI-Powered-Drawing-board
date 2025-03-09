@@ -30,5 +30,12 @@ A versatile drawing board where users can sketch, customize brushes with differe
    ```bash
    git clone https://github.com/KushalAgrawal30/AI-Powered-Drawing-board.git
 
-2. To enable AI recognition, set your Gemini API Key in an enviroment variable. Create a .env file
+2. Install dependencies:
+    ```bash
+    npm install
+    npm install @google/generative-ai
+    npm i react-sketch-canvas
+
+3. To enable AI recognition, set your Gemini API Key in an enviroment variable. Create a .env file
+    ```bash
     VITE_GEMINI_API_KEY = API_KEY
