@@ -104,9 +104,9 @@ input[type="color"]::-webkit-color-swatch {
     padding: 15px;
     border-radius: 8px;
     width: 100%;
-    max-width: 500px;
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .ai-prompt textarea{
@@ -116,6 +116,11 @@ input[type="color"]::-webkit-color-swatch {
     height: 60px;
     resize: none;
     border-radius: 10px;
+}
+
+.ai-prompt p{
+    max-width: 1100px;
+    margin-top: 10px;
 }
 
 .ai-response{

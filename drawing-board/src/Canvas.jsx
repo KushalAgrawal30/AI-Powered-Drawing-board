@@ -1,9 +1,16 @@
 import {ReactSketchCanvas} from "react-sketch-canvas";
 import {ChangeEvent, useRef, useState} from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {GoogleGenerativeAI} from "@google/generative-ai"
 import {faPaintbrush, faEraser, faRotateLeft, faRotateRight, faArrowsRotate, faBroom, faDownload} from '@fortawesome/free-solid-svg-icons'
 
 function Canvas(){
+    const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent"
+    const API_KEY = import.meta.env.VITE_GEMINI_API_KEY
+
+    const genAI = new GoogleGenerativeAI(API_KEY)
+    const model = genAI.getGenerativeModel({model: "gemini-1.5-pro"})
+
     const canvasRef = useRef(null);
     const [eraseMode, setEraseMode] = useState(false)
     const [strokeWidth, setStrokeWidth] = useState(5)
@@ -13,6 +20,7 @@ function Canvas(){
     const [canvasColor, setCanvasColor] = useState("#e9eaed")
 
     const [aiResponse, setAIResponse] = useState("")
+    const [aiDescription, seTAIDescription] = useState("")
 
     const handleEraser = () => {
         setEraseMode(true)
@@ -55,10 +63,11 @@ function Canvas(){
     const handleResetClick = () => {
         canvasRef.current?.resetCanvas()
         setStrokeColor("#000000")
-        setCanvasColor("#1F2023")
+        setCanvasColor("#e9eaed")
         setStrokeWidth(5)
         setEraseWidth(5)
         setAIResponse("")
+        seTAIDescription("")
     }
 
     const handleSave = async () => {
@@ -94,25 +103,13 @@ function Canvas(){
                                 Your response should be clear and in full sentences. Do not use symbols, special characters, or unnecessary formatting.
                             `;
 
-                const requestbody = {
-                    contents: [
-                        {role: 'user', parts:[{text:prompt}]},
-                        {role: 'user', parts:[{inline_data: {mime_type: 'image/png', data:base64img}}]}
-                    ]
-                };
-
-                const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent"
-                const API_KEY = import.meta.env.VITE_GEMINI_API_KEY
+                const requestbody = [
+                    prompt,
+                    {inline_data: {mime_type: 'image/png', data:base64img}}
+                ]
 
                 try {
-                    const response = await fetch(`${GEMINI_API_URL}?key=${API_KEY}`, {
-                        method: 'POST',
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(requestbody)
-                    })
-
+                    const response = await model.generateContent(requestbody)
                     const result = await response.json()
                     const ai_response = result.candidates?.[0]?.content?.parts?.[0]?.text
                     console.log("Gemini rsponse", ai_response)
@@ -126,6 +123,36 @@ function Canvas(){
             }
         }
     } 
+
+    const handleSuggestion = async () => {
+        seTAIDescription("")
+        const inputField = document.getElementById("user-prompt")
+        const value = inputField.value;
+
+        const prompt = `Role: You are an art instructor AI that provides helpful, step-by-step drawing guidance based on the user’s description.
+                        Task: The user will describe what they want to draw (for example, “I want to draw a forest with a deer in the middle”). In response, you should:
+                        Summarize what they want to draw in your own words.
+                        Provide clear, step-by-step instructions on how to sketch the scene, focusing on composition, basic shapes, proportions, and perspective.
+                        Keep the language clear, short, positive, and encouraging.
+                        Keep the instructions short and clear, no more than a few lines.
+                        Keep your response short and clear, without any unnecessary symbols. Format your answer in simple words in a short paragraph. Avoid extra punctuation and use plain language.`
+
+        const requestbody = [
+            prompt,
+            value
+        ]
+
+        try{
+            const response = await model.generateContent(requestbody)
+            const ai_response = response.response.text()
+            seTAIDescription(ai_response)
+        }catch(error){
+            console.log("Error",error)
+            alert("Failed to process prompt")
+        }
+
+
+    }
 
     return(
         <div className="container">
@@ -150,10 +177,9 @@ function Canvas(){
                     <input type="color" value={canvasColor} id="canvasColor" onChange={handleCanvasColorChange} />
                 </div>
             </div>
-            <div className="ai-prompt">
-                <textarea placeholder="Describe"></textarea>
-                <button type="button">Generate</button>
-                
+            <button type="button" onClick={analyzeImage}>Recognize</button>
+            <div className="ai-response">
+                <p>{aiResponse}</p>
             </div>
             <ReactSketchCanvas
                 width="100%"
@@ -164,10 +190,13 @@ function Canvas(){
                 eraserWidth={eraseWidth}
                 strokeColor={strokeColor}
             />
-            <button type="button" onClick={analyzeImage}>Recognize</button>
-            <div className="ai-response">
-                <p>{aiResponse}</p>
+            
+            <div className="ai-prompt">
+                <textarea id="user-prompt" placeholder="Describe"></textarea>
+                <button type="button" onClick={handleSuggestion}>Generate</button>
+                <p>{aiDescription}</p>
             </div>
+           
         </div>
     )
 }
