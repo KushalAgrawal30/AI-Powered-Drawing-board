@@ -110,8 +110,7 @@ function Canvas(){
 
                 try {
                     const response = await model.generateContent(requestbody)
-                    const result = await response.json()
-                    const ai_response = result.candidates?.[0]?.content?.parts?.[0]?.text
+                    const ai_response = response.response.text()
                     console.log("Gemini rsponse", ai_response)
                     setAIResponse(ai_response)
 
